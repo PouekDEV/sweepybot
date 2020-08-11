@@ -4,7 +4,7 @@ var auth = require('./auth.json');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const prefix = "=";
-var tokenn = ("NzI1NjI5MzM3MDQ2NjE0MDI3.XvRiOA.BhTNsW-cYjzD7dXMl0mmX6I3lEk");
+var tokenn = ("");
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
