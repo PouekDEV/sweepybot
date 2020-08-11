@@ -20,69 +20,50 @@ bot.on('ready', function (evt) {
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
-	client.login(tokenn);
 });
 bot.on('ready', () => {
     // Set bot status to: "Playing with JavaScript"
- bot.setPresence({ game: { name: 'Cleaning servers', type: 0 } });
+		client.login(tokenn);
 
     // Alternatively, you can set the activity to any of the following:
     // PLAYING, STREAMING, LISTENING, WATCHING
     // For example:
     // client.user.setActivity("TV", {type: "WATCHING"})
 })
+client.once('ready', () => {
+	 bot.setPresence({ game: { name: '=help', type: 0 } });
+	 console.log("we are in");
+})
 client.on("message", (message) => {
-if(message.content == "=delchannel" && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
-		message.react("✅"); // Call .send() on the channel object the message was sent in
-		message.channel.bulkDelete(1);
-		message.channel.send(`Deleting channel!`).then(sentMessage => {
-    sentMessage.channel.delete(10);
-});
+if(message.content.startsWith("=clean") && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
+let array = message.content.split(' ').slice(1).join(' ');
+if(array < 101){
+			message.channel.bulkDelete(array).catch(err => console.log(err));
+		message.channel.send('Deleted ' + array + ' messages!');
 }
-if(message.content == "=clean1" && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
-		message.react("✅"); // Call .send() on the channel object the message was sent in
-		message.channel.bulkDelete(1);
-		message.channel.send(`Deleted 1 messages!`);
+else{
+	message.channel.send('Cant delete more than 100');
+}
 };
-if(message.content == "=clean5" && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
-		message.react("✅"); // Call .send() on the channel object the message was sent in
-		message.channel.bulkDelete(5);
-		message.channel.send(`Deleted 5 messages!`);
+if(message.content == "=help"){ // Check if content of message is "!ping"
+		message.channel.send(`Type clean [number] to clean the messages (example =clean 10). Before using bot you need to type =setup for bot to working properly (adds a role named Sweepy Boss that you need to execute commands).`);
 };
-if(message.content == "=clean10" && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
-		message.react("✅"); // Call .send() on the channel object the message was sent in
-		message.channel.bulkDelete(10);
-		message.channel.send(`Deleted 10 messages!`);
+if(message.content == "=setup" && message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.find(role => role.name === "Sweepy Boss")){ // Check if content of message is "!ping"
+message.guild.roles.create({
+  data: {
+    name: 'Sweepy Boss',
+    color: 'GREY',
+  },
+  reason: 'For setup',
+})
+  .then(console.log)
+  .catch(console.error);
+  		message.channel.send(`Please type now =finish`);
 };
-if(message.content == "=clean50" && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
-		message.react("✅"); // Call .send() on the channel object the message was sent in
-		message.channel.bulkDelete(50);
-		message.channel.send(`Deleted 50 messages!`);
-};
-if(message.content == "=clean100" && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
-		message.react("✅"); // Call .send() on the channel object the message was sent in
-		message.channel.bulkDelete(100);
-		message.channel.send(`Deleted 100 messages!`);
-};
+if(message.content == "=finish" && message.member.hasPermission('ADMINISTRATOR')){
+		var role = message.guild.roles.cache.find(role => role.name === "Sweepy Boss");
+	message.member.roles.add(role).catch(err => console.log(err));
+	message.channel.send(`Setup has been completed!`);
+}
 	
 });	
-bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '=') {
-        var args = message.substring(1).split(' ');
-        var cmd = args[0];
-       
-        args = args.splice(1);
-        switch(cmd) {
-            // ?ping
-            case 'help':
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'Type clean to clean the messages from 1,5,10,50,100 (example =clean10), Type delchannel to delete entire channel. You need for commands role named Sweepy Boss'
-                });
-            break;
-            // Just add any case commands if you want to..
-         }
-     }
-});
