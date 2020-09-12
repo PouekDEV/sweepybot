@@ -4,7 +4,7 @@ var auth = require('./auth.json');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const prefix = "=";
-var tokenn = ("NzI1NjI5MzM3MDQ2NjE0MDI3.XvRiOA.BhTNsW-cYjzD7dXMl0mmX6I3lEk");
+var tokenn = ("");
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -35,6 +35,7 @@ client.once('ready', () => {
 	 console.log("we are in");
 })
 client.on("message", (message) => {
+  if (message.author.bot) return;
 if(message.content.startsWith("=clean") && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
 let array = message.content.split(' ').slice(1).join(' ');
 if(array < 101){
@@ -65,5 +66,4 @@ if(message.content == "=finish" && message.member.hasPermission('ADMINISTRATOR')
 	message.member.roles.add(role).catch(err => console.log(err));
 	message.channel.send(`Setup has been completed!`);
 }
-	
 });	
