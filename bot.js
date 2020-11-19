@@ -1,10 +1,11 @@
+
 var Discord2 = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth.json');
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const prefix = "=";
-var tokenn = ("");
+var tokenn = (process.env.DISCORDTOKEN);
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -13,7 +14,7 @@ logger.add(new logger.transports.Console, {
 logger.level = 'debug';
 // Initialize Discord Bot
 var bot = new Discord2.Client({
-   token: auth.token,
+   token: process.env.DISCORDTOKEN,
    autorun: true
 });
 bot.on('ready', function (evt) {
@@ -23,7 +24,6 @@ bot.on('ready', function (evt) {
 });
 bot.on('ready', () => {
     // Set bot status to: "Playing with JavaScript"
-		client.login(tokenn);
 
     // Alternatively, you can set the activity to any of the following:
     // PLAYING, STREAMING, LISTENING, WATCHING
@@ -31,8 +31,8 @@ bot.on('ready', () => {
     // client.user.setActivity("TV", {type: "WATCHING"})
 })
 client.once('ready', () => {
-	 bot.setPresence({ game: { name: '=help', type: 0 } });
-	 console.log("we are in");
+	 client.user.setActivity("=help" , {type: "PLAYING"});
+   console.log("done");
 })
 client.on("message", (message) => {
   if (message.author.bot) return;
@@ -48,6 +48,12 @@ else{
 };
 if(message.content == "=help"){ // Check if content of message is "!ping"
 		message.channel.send(`Type clean [number] to clean the messages (example =clean 10). Before using bot you need to type =setup for bot to working properly (adds a role named Sweepy Boss that you need to execute commands).`);
+};
+if(message.content == "=setup" && message.member.roles.cache.find(role => role.name === "Sweepy Boss")){
+message.channel.send("The setup has been arleady done!");
+};
+if(message.content == "=setup" && !message.member.hasPermission('ADMINISTRATOR')){
+message.channel.send("You don't have permissions to do that!");
 };
 if(message.content == "=setup" && message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.find(role => role.name === "Sweepy Boss")){ // Check if content of message is "!ping"
 message.guild.roles.create({
@@ -66,4 +72,6 @@ if(message.content == "=finish" && message.member.hasPermission('ADMINISTRATOR')
 	message.member.roles.add(role).catch(err => console.log(err));
 	message.channel.send(`Setup has been completed!`);
 }
+	
 });	
+client.login();
