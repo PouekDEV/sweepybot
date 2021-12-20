@@ -22,21 +22,13 @@ bot.on('ready', function (evt) {
     logger.info('Logged in as: ');
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
-bot.on('ready', () => {
-    // Set bot status to: "Playing with JavaScript"
-
-    // Alternatively, you can set the activity to any of the following:
-    // PLAYING, STREAMING, LISTENING, WATCHING
-    // For example:
-    // client.user.setActivity("TV", {type: "WATCHING"})
-})
 client.once('ready', () => {
 	 client.user.setActivity("=help" , {type: "PLAYING"});
    console.log("done");
 })
 client.on("message", (message) => {
   if (message.author.bot) return;
-if(message.content.startsWith("=clean") && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){ // Check if content of message is "!ping"
+if(message.content.startsWith("=clean") && message.member.roles.cache.some(role => role.name === 'Sweepy Boss')){
 let array = message.content.split(' ').slice(1).join(' ');
 if(array < 101){
 			message.channel.bulkDelete(array).catch(err => console.log(err));
@@ -46,7 +38,7 @@ else{
 	message.channel.send('Cant delete more than 100');
 }
 };
-if(message.content == "=help"){ // Check if content of message is "!ping"
+if(message.content == "=help"){
 		message.channel.send(`Type clean [number] to clean the messages (example =clean 10). Before using bot you need to type =setup for bot to working properly (adds a role named Sweepy Boss that you need to execute commands).`);
 };
 if(message.content == "=setup" && message.member.roles.cache.find(role => role.name === "Sweepy Boss")){
@@ -55,7 +47,7 @@ message.channel.send("The setup has been arleady done!");
 if(message.content == "=setup" && !message.member.hasPermission('ADMINISTRATOR')){
 message.channel.send("You don't have permissions to do that!");
 };
-if(message.content == "=setup" && message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.find(role => role.name === "Sweepy Boss")){ // Check if content of message is "!ping"
+if(message.content == "=setup" && message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.find(role => role.name === "Sweepy Boss")){
 message.guild.roles.create({
   data: {
     name: 'Sweepy Boss',
