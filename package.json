@@ -1,6 +1,27 @@
 {
+  "name": "sweepybot",
+  "version": "1.0.0",
+  "description": "Sweepy is a bot that helps you manage messages on your server by allowing you to delete messages in a bulk.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PouekDEV/sweepybot.git"
+  },
+  "keywords": [
+    "bot"
+  ],
+  "author": "PouekDEV",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PouekDEV/sweepybot/issues"
+  },
+  "homepage": "https://github.com/PouekDEV/sweepybot#readme",
   "dependencies": {
-    "discord.js": "^14.5.0",
-    "dotenv": "^16.0.3"
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "topgg-autoposter": "^2.0.2"
   }
 }
